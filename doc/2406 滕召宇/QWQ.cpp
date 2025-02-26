@@ -6,78 +6,78 @@
 
 using namespace std;
 
-// ¾«ĞÄÌôÑ¡µÄÑÕÎÄ×Ö¼¯ºÏ
+// ç²¾å¿ƒæŒ‘é€‰çš„é¢œæ–‡å­—é›†åˆ
 vector<string> kaomoji = {
-    "(£ş©`£ş)?", "¨r(£ş¨S£ş)¨q", "(?? ¦Ø ?`)",
-    "(£»?§¥`A)", "©´(?§Õ`)©°", "(??¦Ø`? )",
-    "?(???)?", "(?_ _)?", "(£Ş£ö£Ş)",
-    "©c(?¨Œ`)/", "(£ş¡Ï£ş)?", "(¨®©n¨°?)",
-    "(?-¦Ø-` )", "©c(???)¥Î", "(¤Ä¦Ø`?)",
-    "(???`?)","(¡«£ş¨Œ£ş)¡«","(¨s¡ã¡õ¡ã£©¨s¦à ©ß©¥©ß",
-    "(¡Ño¡Ñ)£¿","(¨R?¨Q)©g","( ???)?(._.`)"
+    "(ï¿£ãƒ¼ï¿£)?"ï¼Œ "â•®(ï¿£âŠ¿ï¿£)â•­"ï¼Œ "(?? Ï‰ ?`)"ï¼Œ
+    "(ï¼›?Ğ”`A)"ï¼Œ "â”(?Ğ´`)â”Œ"ï¼Œ "(??Ï‰`? )"ï¼Œ
+    "?(???)?"ï¼Œ "(?_ _)?"ï¼Œ "(ï¼¾ï½–ï¼¾)"ï¼Œ
+    "ãƒ½(?â–½`)/"ï¼Œ "(ï¿£âˆ ï¿£)?"ï¼Œ "(Ã³ï¹Ã²?)"ï¼Œ
+    "(?-Ï‰-` )"ï¼Œ "ãƒ½(???)ãƒ"ï¼Œ "(ã¤Ï‰`?)"ï¼Œ
+    "(???`?)"ï¼Œ"(ï½ï¿£â–½ï¿£)ï½"ï¼Œ"(â•¯Â°â–¡Â°ï¼‰â•¯ï¸µ â”»â”â”»"ï¼Œ
+    "(âŠ™oâŠ™)ï¼Ÿ"ï¼Œ"(â‰§?â‰¦)ã‚"ï¼Œ"( ???)?(._.`)"
 };
 
 void setupConsole() {
-    // ÉèÖÃ¿ØÖÆÌ¨²ÎÊı
+    // è®¾ç½®æ§åˆ¶å°å‚æ•°
     CONSOLE_CURSOR_INFO cursorInfo;
     GetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
     cursorInfo.bVisible = false;
     SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
 
-    // ÉèÖÃËæ»úÖÖ×Ó
+    // è®¾ç½®éšæœºç§å­
     srand(static_cast<unsigned>(time(0)));
 }
 
 void clearScreen() {
-    // ¸ßĞ§ÇåÆÁ·½Ê½
+    // é«˜æ•ˆæ¸…å±æ–¹å¼
     static const HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(hOut, &csbi);
     DWORD written;
-    FillConsoleOutputCharacter(hOut, ' ', csbi.dwSize.X * csbi.dwSize.Y, { 0,0 }, &written);
-    SetConsoleCursorPosition(hOut, { 0,0 });
+    FillConsoleOutputCharacter(hOut, ' ', csbi.dwSizeã€‚X * csbi.dwSizeã€‚Yï¼Œ { 0ï¼Œ0 }, &written);
+    SetConsoleCursorPosition(hOut, { 0ï¼Œ0 });
 }
 
 void printCentered(const string& text) {
-    // »ñÈ¡¿ØÖÆÌ¨¿í¶È
+    // è·å–æ§åˆ¶å°å®½åº¦
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-    int width = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+    int width = csbi.srWindowã€‚Right - csbi.srWindowã€‚Left + 1;
 
-    // ¼ÆËã¾ÓÖĞÎ»ÖÃ£¨¿¼ÂÇUnicode×Ö·û¿í¶È£©
+    // è®¡ç®—å±…ä¸­ä½ç½®ï¼ˆè€ƒè™‘Unicodeå­—ç¬¦å®½åº¦ï¼‰
     int padding = (width - static_cast<int>(text.length())) / 2;
     if (padding < 0) padding = 0;
 
-    // ´øÑÕÉ«Êä³ö
+    // å¸¦é¢œè‰²è¾“å‡º
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY |
-        (rand() % 6 + 10)); // Ëæ»úÁÁÉ«
+        (rand() % 6 + 10)); // éšæœºäº®è‰²
     cout << string(padding, ' ') << text << endl;
 }
 
 int main() {
     setupConsole();
 
-    const int FRESH_RATE = 800; // ÇĞ»»¼ä¸ô£¨ºÁÃë£©
-    const int TITLE_COLOR = 14; // ±êÌâÑÕÉ«£¨»ÆÉ«£©
+    const int FRESH_RATE = 800; // åˆ‡æ¢é—´éš”ï¼ˆæ¯«ç§’ï¼‰
+    const int TITLE_COLOR = 14; // æ ‡é¢˜é¢œè‰²ï¼ˆé»„è‰²ï¼‰
 
     while (true) {
         clearScreen();
 
-        // »æÖÆ±êÌâ
+        // ç»˜åˆ¶æ ‡é¢˜
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), TITLE_COLOR);
-        cout << "==== ÑÕÎÄ×ÖËæ»ú²¥·ÅÆ÷ ====" << endl << endl;
+        cout << "==== é¢œæ–‡å­—éšæœºæ’­æ”¾å™¨ ====" << endl << endl;
 
-        // Ëæ»úÑ¡ÔñÑÕÎÄ×Ö
+        // éšæœºé€‰æ‹©é¢œæ–‡å­—
         int index = rand() % kaomoji.size();
         printCentered(kaomoji[index]);
 
-        // »æÖÆµ×²¿×°ÊÎ
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8); // »ÒÉ«
-        cout << endl << "¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T¨T" << endl;
-        cout << " °´ Ctrl+C ÍË³ö³ÌĞò" << endl;
+        // ç»˜åˆ¶åº•éƒ¨è£…é¥°
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE)ï¼Œ 8); // ç°è‰²
+        cout << endl << "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•" << endl;
+        cout << " æŒ‰ Ctrl+C é€€å‡ºç¨‹åº" << endl;
 
         Sleep(FRESH_RATE);
     }
     return 0;
 }
-   //aiÉú³É
+   //æˆ‘æ‡’ï¼Œaiçš„ğŸ˜Š
